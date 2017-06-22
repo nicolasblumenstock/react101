@@ -1,0 +1,29 @@
+.team-name, .team-gamesBack, .team-city{
+	color: peru;
+	text-align: center;
+	font-size: 20px;
+}
+
+.header{
+	color: lightseagreen;
+	text-align: center;
+}
+
+.btn, .team-gamesBack{
+	float: left;
+	padding: 20px;
+}
+
+.btn {
+	width: 45%;
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active{
+	background-color: orange;
+	outline: none;
+}
+
+.btn-warning:hover, .btn-waring:focus, .btn-warning:active{
+	background-color: magenta;
+	outline: none;
+}
