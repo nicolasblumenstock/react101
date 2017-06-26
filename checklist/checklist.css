@@ -16,3 +16,11 @@
 .table-contents{
 	background-color: peachpuff;
 }
+
+.available {
+	color: darkgreen;
+}
+
+.unavailable {
+	color: crimson;
+}

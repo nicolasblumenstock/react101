@@ -1,44 +1,59 @@
 var data = [
 	{
-		category: 'sporting goods',
-		products: [
-			{
-				product: 'football',
-				price: '$49.99'
-			},
-			{
-				product: 'baseball',
-				price: '$9.99'
-			},
-			{
-				product: 'basketball',
-				price: '$29.99'
-			}						
-		]
+		category: 'Sporting Goods',	
+		price: '$49.99',
+		name: 'Football',
+		inStock: true
+	},
+	// {
+	// 	category: 'Junk',	
+	// 	price: '$49.99',
+	// 	name: 'Football',
+	// 	inStock: true
+	// },	
+	{
+		category: 'Sporting Goods',	
+		price: '$9.99',
+		name: 'Baseball',
+		inStock: true
 	},
 	{
-		category: 'electronics',
-		products: [
-			{
-				product: 'ipod touch',
-				price: '$99.99'
-			},
-			{
-				product: 'iphone 5',
-				price: '$399.99'
-			},
-			{
-				product: 'nexus 7',
-				price: '$199.99'
-			}						
-		]
+		category: 'Sporting Goods',	
+		price: '$29.99',
+		name: 'Basketball',
+		inStock: false
+	},
+
+	{
+		category: 'Electronics',	
+		price: '$99.99',
+		name: 'iPod Touch',
+		inStock: true
+	},
+	{
+		category: 'Electronics',	
+		price: '$399.99',
+		name: 'iPhone 5',
+		inStock: false
+	},
+	{
+		category: 'Electronics',	
+		price: '$199.99',
+		name: 'Nexus 7',
+		inStock: true
 	}
 ]
 
 function ProductRow(props){
+	var productClass = ''
+	if(props.prods.inStock == true){
+		productClass = 'available'
+	}else{
+		productClass = 'unavailable'
+	}
 	return(
-		<tr>
-			<td>{props.prods.product}</td>
+		<tr className={productClass}>
+			<td>{props.prods.name}</td>
 			<td>{props.prods.price}</td>
 		</tr>
 	)
@@ -46,21 +61,25 @@ function ProductRow(props){
 
 function ProductCategoryRow(props){
 	return(
-		<tbody>
 		<tr>
 			<th>{props.data.category}</th>
 		</tr>
-		{props.data.products.map((prod,index)=>{
-			var array = []
-			array.push(<ProductRow prods = {prod} key = {index}/>)
-			return array	
-		})
-		}
-		</tbody>
-		)
+	)
 }
 
 function ProductTable(props){
+	var productArray = []
+	var lastCategory = ''
+	var key = 0	
+	props.data.map((prod,index)=>{
+		if (prod.category !== lastCategory){
+			productArray.push(<ProductCategoryRow key = {key} data = {prod}/>)
+			lastCategory = prod.category
+			key++
+		}
+		productArray.push(<ProductRow key={key} prods={prod}/>)
+		key++
+	})
 	return(
 		<table className='table-condensed table-hover'>
 			<thead>
@@ -69,11 +88,9 @@ function ProductTable(props){
 				<th>Price</th>
 			</tr>
 			</thead>
-			{props.data.map((prod,index)=>{
-				var productArray = []
-				productArray.push(<ProductCategoryRow data = {prod}/>)
-				return productArray
-			})}
+			<tbody>
+				{productArray}
+			</tbody>
 		</table>
 	)
 }
@@ -92,21 +109,18 @@ function SearchBar(){
 function FilterableProductTable(props){
 	return(
 		<div className='productTable container'>
-		<div className='row'>
-		<div className='col-sm-3 col-sm-offset-4 table-contents'>
-			<SearchBar />
-			<ProductTable data = {props.data}/>
-		</div>
-		</div>
+			<div className='row'>
+				<div className='col-sm-3 col-sm-offset-4 table-contents'>
+					<SearchBar />
+					<ProductTable data = {props.data}/>
+				</div>
+			</div>
 		</div>
 	)
 }
 
-function Application(props){
-	return(<FilterableProductTable data = {props.data}/>)
-}
 
 ReactDOM.render(
-	<Application data = {data}/>,
+	<FilterableProductTable data = {data}/>,
 	document.getElementById('root')
 )
